@@ -1,0 +1,67 @@
+let currentInput = '';
+let storedValue = null;
+let currentOperation = null;
+const display = document.getElementById('display');
+
+// Function to handle number button clicks
+function handleNumberClick(number) {
+    currentInput += number;
+    display.value = currentInput;
+}
+
+// Function to handle operation button clicks
+function handleOperationClick(operation) {
+    if (currentInput !== '') {
+        if (storedValue === null) {
+            storedValue = parseFloat(currentInput);
+        } else if (currentOperation) {
+            storedValue = performOperation(storedValue, parseFloat(currentInput), currentOperation);
+        }
+    }
+    currentOperation = operation;
+    currentInput = '';
+}
+
+// Function to handle the equal button click
+function handleEqualClick() {
+    if (currentInput !== '' && currentOperation) {
+        storedValue = performOperation(storedValue, parseFloat(currentInput), currentOperation);
+        display.value = storedValue;
+        currentInput = '';
+        currentOperation = null;
+    }
+}
+
+// Function to perform the operation
+function performOperation(a, b, operation) {
+    switch (operation) {
+        case '+':
+            return a + b;
+        case '-':
+            return a - b;
+        case '*':
+            return a * b;
+        case '/':
+            return b !== 0 ? a / b : 'Error';
+        default:
+            return b;
+    }
+}
+
+// Function to clear the calculator
+function clearCalculator() {
+    currentInput = '';
+    storedValue = null;
+    currentOperation = null;
+    display.value = '';
+}
+
+// Event listeners for number buttons
+document.querySelectorAll('.number').forEach(button => {
+    button.addEventListener('click', function() {
+        handleNumberClick(this.innerText);
+    });
+});
+
+// Event listeners for operation buttons
+document.querySelectorAll('.operation').for
